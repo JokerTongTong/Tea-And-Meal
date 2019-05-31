@@ -11,18 +11,5 @@ manager = Manager(app)
 Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
-
-# @app.route('/index')
-# def index():
-#     return 'index'
-
-
 if __name__ == '__main__':
     manager.run()
-# db = SQLAlchemy(app)
-# redis_store = redis.StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
-# CSRFProtect(app)
-# Session(app)
-# manager = Manager(app)
-# Migrate(app, db)
-# manager.add_command('db', MigrateCommand)

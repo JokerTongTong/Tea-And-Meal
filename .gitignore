@@ -106,3 +106,4 @@ venv.bak/
 .idea/
 tam-venv/
 .gitignore
+logs/log*

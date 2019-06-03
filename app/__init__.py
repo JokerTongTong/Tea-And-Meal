@@ -8,7 +8,6 @@ from config import config
 import logging
 from app.resource.user import index_blu
 
-
 # 数据库
 db = SQLAlchemy()
 redis_store = None
@@ -34,6 +33,7 @@ def create_app(config_name):
 
     # 注册蓝图
     app.register_blueprint(index_blu)
+    # app.register_blueprint(user_blu)
 
     return app
 

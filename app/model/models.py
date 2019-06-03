@@ -1,13 +1,3 @@
-from _datetime import datetime
-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-
-# app = Flask(__name__) #创建实例化app对象
-# app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@localhost:3306/test_tam"
-# # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True  #配置，如果设置True,将会追踪对象修改并且发送信号
-# db = SQLAlchemy(app)  #定义db，传入app对象
 #定义用户数据模型
 from app import db
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -17,13 +7,13 @@ class User(db.Model):
     #column字段  unique唯一
     id = db.Column(db.Integer, primary_key=True) #编号
     nick_name = db.Column(db.String(100),unique=True) #昵称，唯一性
-    avatar_url = db.Column(db.String)
+    avatar_url = db.Column(db.String(100))
     mobile = db.Column(db.String(11),unique=True) #手机，唯一性
     password_hash = db.Column(db.String(255), nullable=False)  # 密码，不允许为空
     last_login = db.Column(db.DateTime, nullable=True) # 最后一次登录时间，允许为空
     is_admin = db.Column(db.Boolean,default=0) # 管理员，默认为0，否
     signature = db.Column(db.String(255),default=None)
-    gender = db.Column(db.String, default="男")
+    gender = db.Column(db.String(40), default="男")
 
 
 

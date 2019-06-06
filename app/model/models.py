@@ -1,9 +1,9 @@
-#定义用户数据模型
 from sqlalchemy import Table
-
 from app import db
 from werkzeug.security import generate_password_hash,check_password_hash
 
+
+#定义用户数据模型
 class User(db.Model):
     """
         用户表
@@ -81,23 +81,38 @@ class Category(db.Model):
     name = db.Column(db.String(500))
 
 
-# arctire_tag = Table(
-# "arctire_tag"       #表名
-# Base.metadata   #表继承的类
-# Column(“arctire_id” , Integer , primary_key=True , ForeignKey("arctire.id")      #arctire_id 为字段名
-# Column("tag_id" , Integer , primary_key=True , ForeignKey("tag.id")   
-# )
-
 # 用户收藏新闻 关系 表
 User_Collection = Table(
     "user_collection",  # 表名
     db.Model.metadata,  # 表继承的类
     db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
-    db.Column("collection_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+    db.Column("collection_id", db.Integer, db.ForeignKey("news.id"), primary_key=True),
     db.Column("create_time", db.DateTime)  # create_time 字段名
 )
 
+# 用户点赞评论 关系表
+Comment_Like = Table(
+    "comment_like",
+    db.Model.metadata,
+    db.Column("comment_id", db.Integer, db.ForeignKey("comment.id"), primary_key=True),
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+)
 
+# 用户点赞新闻 关系表
+News_Like = Table(
+    "news_like",
+    db.Model.metadata,
+    db.Column("news_id", db.Integer, db.ForeignKey("news.id"), primary_key=True),
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+)
+
+# 粉丝 关系表
+User_Fans = Table(
+    "user_fans",
+    db.Model.metadata,
+    db.Column("follower_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+    db.Column("followered_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+)
 
 
 

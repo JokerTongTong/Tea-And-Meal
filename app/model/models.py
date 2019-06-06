@@ -45,7 +45,7 @@ class News(db.Model):
     __tablename__ = "news"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     title = db.Column(db.String(100), unique=True)  # 标题
-    content = db.Column(db.text)  # 内容
+    content = db.Column(db.String(1000))  # 内容
     source = db.Column(db.String(100))   # 作者/来源
     index_image_url = db.Column(db.String(100))  # 图片连接fastDFS
     create_time = db.Column(db.DateTime)   # 发布时间
@@ -62,7 +62,7 @@ class Comment(db.Model):
     """
     __tablename__ = "comment"
     id = db.Column(db.Integer, primary_key=True)  # 编号
-    content = db.Column(db.text)  # 内容
+    content = db.Column(db.String(1000))  # 内容
     create_time = db.Column(db.DateTime)   # 评论时间
     floor = db.Column(db.Integer)  # 第几楼
     like_count = db.Column(db.Integer,default=0) # 点赞数量
@@ -87,15 +87,14 @@ class Category(db.Model):
 # Column(“arctire_id” , Integer , primary_key=True , ForeignKey("arctire.id")      #arctire_id 为字段名
 # Column("tag_id" , Integer , primary_key=True , ForeignKey("tag.id")   
 # )
+
+# 用户收藏新闻 关系 表
 User_Collection = Table(
-    """
-        用户收藏新闻 关系 表
-    """
     "user_collection",  # 表名
-    db.Model.metadata,
+    db.Model.metadata,  # 表继承的类
     db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
     db.Column("collection_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
-    db.Column("create_time", db.DateTime)
+    db.Column("create_time", db.DateTime)  # create_time 字段名
 )
 
 

@@ -1,8 +1,13 @@
 #定义用户数据模型
+from sqlalchemy import Table
+
 from app import db
 from werkzeug.security import generate_password_hash,check_password_hash
 
 class User(db.Model):
+    """
+        用户表
+    """
     __tablename__ = "user"  #存入表名称
     #column字段  unique唯一
     id = db.Column(db.Integer, primary_key=True) #编号
@@ -14,18 +19,6 @@ class User(db.Model):
     is_admin = db.Column(db.Boolean,default=0) # 管理员，默认为0，否
     signature = db.Column(db.String(255),default=None)
     gender = db.Column(db.String(40), default="男")
-
-
-
-    # email = db.Column(db.String(100),unique=True)  #邮箱
-    # phone = db.Column(db.String(11),unique=True)  #手机号码
-    # info = db.Column(db.Text)   #个性简介
-    # face = db.Column(db.String(255),unique=True)  #头像
-    # addtime = db.Column(db.DateTime,index=True,default=datetime.utcnow)
-    # uuid = db.Column(db.String(255),unique=True)  #唯一标识符
-    # userlogs = db.relationship('Userlog',backref='user') #会员日志外键关系
-    # comments = db.relationship('Comment',backref='user') #评论外键关系
-    # moviecols = db.relationship('Moviecol',backref='user') #收藏外键关系
 
     # 定义一个方法，返回的类型
     def __repr__(self):
@@ -45,9 +38,75 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 
+class News(db.Model):
+    """
+        新闻表
+    """
+    __tablename__ = "news"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    title = db.Column(db.String(100), unique=True)  # 标题
+    content = db.Column(db.text)  # 内容
+    source = db.Column(db.String(100))   # 作者/来源
+    index_image_url = db.Column(db.String(100))  # 图片连接fastDFS
+    create_time = db.Column(db.DateTime)   # 发布时间
+    clicks = db.Column(db.Integer)  # 点击量
+    status = db.Column(db.Integer) # 状态 审核状态
+    # 外键
+    category_id = db.Column(db.Integer,db.ForeignKey("category.id"))   # 类别/话题
+    user_id = db.Column(db.Integer,db.ForeignKey("user.id"))      # 用户/谁发布
+
+
+class Comment(db.Model):
+    """
+        评论表
+    """
+    __tablename__ = "comment"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    content = db.Column(db.text)  # 内容
+    create_time = db.Column(db.DateTime)   # 评论时间
+    floor = db.Column(db.Integer)  # 第几楼
+    like_count = db.Column(db.Integer,default=0) # 点赞数量
+
+    # 外键
+    news_id = db.Column(db.Integer,db.ForeignKey("news.id"))  # 类别/话题
+    user_id = db.Column(db.Integer,db.ForeignKey("user.id"))      # 用户/谁发布
+
+
+class Category(db.Model):
+    """
+        新闻种类/话题
+    """
+    __tablename__ = "category"
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    name = db.Column(db.String(500))
+
+
 # arctire_tag = Table(
 # "arctire_tag"       #表名
 # Base.metadata   #表继承的类
 # Column(“arctire_id” , Integer , primary_key=True , ForeignKey("arctire.id")      #arctire_id 为字段名
 # Column("tag_id" , Integer , primary_key=True , ForeignKey("tag.id")   
 # )
+User_Collection = Table(
+    """
+        用户收藏新闻 关系 表
+    """
+    "user_collection",  # 表名
+    db.Model.metadata,
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+    db.Column("collection_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+    db.Column("create_time", db.DateTime)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

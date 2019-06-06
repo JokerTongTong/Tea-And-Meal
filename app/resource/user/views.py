@@ -1,23 +1,34 @@
 # from flask import request, jsonify
-
-from . import index_blu
+from flask import request
+from . import passport_blu
 # from . import user_blu
 
 
-@index_blu.route('/')
-def index():
-    return 'index'
+
+
+
+
+
+@passport_blu.route('/login', methods=["post"])
+def login():
+    """
+    1.获取参数和判断是否有值
+    2.从数据库查询出指定的用户
+    3.校验密码
+    4.保存用户登录状态
+    5.返回结果
+    :return:
+    """
+    # 1.获取数据
+    json_data = request.json
+    nick_name = json_data.get("nick_name")
+    password = json_data.get("password")
+    # 2.
+
+    pass
 
 # @user_blu.route('/login', methords = ["post"])
-# def login():
-#     """
-#        1. 获取参数和判断是否有值
-#        2. 从数据库查询出指定的用户
-#        3. 校验密码
-#        4. 保存用户登录状态
-#        5. 返回结果
-#        :return:
-#        """
+#
 #
 #     # 1. 获取参数和判断是否有值
 #     json_data = request.json

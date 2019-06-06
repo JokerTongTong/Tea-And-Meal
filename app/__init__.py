@@ -4,9 +4,11 @@ from flask import Flask, logging
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
+
+from app.resource.index import index_blu
+from app.resource.user import passport_blu
 from config import config
 import logging
-from app.resource.user import index_blu
 
 # 数据库
 db = SQLAlchemy()
@@ -33,7 +35,7 @@ def create_app(config_name):
 
     # 注册蓝图
     app.register_blueprint(index_blu)
-    # app.register_blueprint(user_blu)
+    app.register_blueprint(passport_blu)
 
     return app
 
